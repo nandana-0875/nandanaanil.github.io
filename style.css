@@ -534,3 +534,37 @@ footer {
         grid-template-columns: 1fr;
     }
 }
+.hero-image-container {
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    width: 100%;
+    position: relative;
+    background: radial-gradient(circle, rgba(141, 110, 99, 0.08) 0%, transparent 70%); 
+}
+
+.hero-profile-img {
+    width: 100%;
+    max-width: 380px;      
+    height: auto;
+    display: block;
+    object-fit: contain;
+    
+    mask-image: linear-gradient(to bottom, black 85%, transparent 100%);
+    -webkit-mask-image: linear-gradient(to bottom, black 85%, transparent 100%);
+    
+    filter: drop-shadow(0 10px 20px rgba(0, 0, 0, 0.06));
+    
+    transition: transform 0.4s ease;
+}
+
+.hero-profile-img:hover {
+    transform: translateY(-4px); 
+}
+
+@media (max-width: 992px) {
+    .hero-profile-img {
+        max-width: 300px; 
+        margin-top: 2rem;
+    }
+}
