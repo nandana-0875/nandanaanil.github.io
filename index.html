@@ -2,296 +2,908 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Nandana | Portfolio</title>
-    <!-- Google Fonts -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Someone Special Has a Surprise...</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-    <!-- Font Awesome Icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- External CSS Link -->
-    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Quicksand:wght@300;500;700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --pastel-pink: #ffd1dc;
+            --pastel-lavender: #e6e6fa;
+            --pastel-cream: #fffdd0;
+            --pastel-blue: #b3e5fc;
+            --dark-pink: #ff85a2;
+            --white: #ffffff;
+            --glass: rgba(255, 255, 255, 0.45);
+            --glass-border: rgba(255, 255, 255, 0.6);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            font-family: 'Quicksand', sans-serif;
+            background: linear-gradient(-45deg, var(--pastel-pink), var(--pastel-lavender), var(--pastel-blue), var(--pastel-cream));
+            background-size: 400% 400%;
+            animation: gradientBG 15s ease infinite;
+            height: 100vh;
+            height: 100dvh; /* Dynamic viewport fix for iOS Safari */
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #4a4a4a;
+        }
+
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* Overlays */
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--pastel-cream);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            transition: opacity 0.8s ease, visibility 0.8s;
+        }
+
+        .overlay.hidden {
+            opacity: 0;
+            visibility: hidden;
+        }
+
+        .loader {
+            text-align: center;
+        }
+
+        .heart {
+            width: 50px;
+            height: 50px;
+            background: var(--dark-pink);
+            position: relative;
+            transform: rotate(-45deg);
+            animation: heartbeat 1.2s infinite;
+            margin: 0 auto 20px;
+        }
+
+        .heart::before, .heart::after {
+            content: '';
+            width: 50px;
+            height: 50px;
+            background: var(--dark-pink);
+            border-radius: 50%;
+            position: absolute;
+        }
+
+        .heart::before { top: -25px; left: 0; }
+        .heart::after { top: 0; left: 25px; }
+
+        @keyframes heartbeat {
+            0% { transform: rotate(-45deg) scale(1); }
+            25% { transform: rotate(-45deg) scale(1.1); }
+            50% { transform: rotate(-45deg) scale(1); }
+            75% { transform: rotate(-45deg) scale(1.2); }
+            100% { transform: rotate(-45deg) scale(1); }
+        }
+
+        /* Fairy Lights */
+        .fairy-lights {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            height: 30px;
+            background-image: radial-gradient(circle, #fff 2px, transparent 2px);
+            background-size: 30px 30px;
+            z-index: 10;
+        }
+
+        /* Main Content */
+        #main-content {
+            width: 100%;
+            max-width: 450px;
+            text-align: center;
+            padding: 20px;
+            position: relative;
+            z-index: 5;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        #landing-screen {
+            width: 100%;
+            transition: opacity 0.5s ease, transform 0.5s ease;
+        }
+        
+        #landing-screen.fade-out {
+            opacity: 0;
+            transform: scale(0.9);
+            pointer-events: none;
+        }
+
+        h1 {
+            font-family: 'Dancing Script', cursive;
+            font-size: 2.3rem;
+            margin-bottom: 12px;
+            color: #ff6b81;
+            padding: 0 10px;
+            line-height: 1.2;
+        }
+
+        .subtitle {
+            font-size: 1rem;
+            margin-bottom: 35px;
+            opacity: 0.8;
+            padding: 0 15px;
+        }
+
+        /* Cake CSS */
+        .cake-container {
+            position: relative;
+            height: 260px;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            align-items: center;
+            margin: 0 auto;
+        }
+
+        .cake {
+            position: relative;
+            width: 180px;
+            height: 140px;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+
+        .cake:hover {
+            transform: scale(1.03);
+        }
+
+        .layer {
+            position: absolute;
+            width: 100%;
+            border-radius: 10px 10px 0 0;
+        }
+
+        .layer-bottom {
+            height: 55px;
+            bottom: 0;
+            background: #f4a460;
+            box-shadow: inset 0 -5px rgba(0,0,0,0.1);
+        }
+
+        .layer-middle {
+            height: 45px;
+            bottom: 55px;
+            width: 160px;
+            left: 10px;
+            background: #ffb7c5;
+        }
+
+        .layer-top {
+            height: 35px;
+            bottom: 100px;
+            width: 130px;
+            left: 25px;
+            background: #fff;
+        }
+
+        .icing {
+            position: absolute;
+            top: 0;
+            left: 25px;
+            width: 130px;
+            height: 12px;
+            background: #fff;
+            border-radius: 10px 10px 0 0;
+            z-index: 2;
+        }
+
+        .candle {
+            position: absolute;
+            bottom: 135px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 10px;
+            height: 35px;
+            background: linear-gradient(to right, #e6e6fa, #d8bfd8);
+            border-radius: 3px;
+        }
+
+        .flame {
+            position: absolute;
+            top: -18px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 14px;
+            height: 22px;
+            background: orange;
+            border-radius: 50% 50% 20% 20%;
+            box-shadow: 0 0 10px orange, 0 0 20px yellow;
+            animation: flicker 0.1s infinite alternate;
+            cursor: pointer;
+        }
+
+        @keyframes flicker {
+            0% { transform: translateX(-50%) scale(1); opacity: 0.9; }
+            100% { transform: translateX(-50%) scale(1.1); opacity: 1; }
+        }
+
+        .cake-stand {
+            width: 220px;
+            height: 12px;
+            background: #eee;
+            border-radius: 20px;
+            margin-top: -3px;
+        }
+
+        /* Message Card */
+        .glass-card {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0.85);
+            background: var(--glass);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border: 1px solid var(--glass-border);
+            border-radius: 24px;
+            padding: 30px 24px;
+            width: 88%;
+            max-width: 350px;
+            z-index: 100;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.2);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.08);
+        }
+
+        .glass-card.active {
+            opacity: 1;
+            visibility: visible;
+            transform: translate(-50%, -50%) scale(1);
+        }
+
+        .card-content h2 {
+            font-family: 'Dancing Script', cursive;
+            font-size: 2.4rem;
+            color: #ff6b81;
+            margin-bottom: 15px;
+        }
+
+        .card-content p {
+            line-height: 1.5;
+            margin-bottom: 25px;
+            font-size: 1.05rem;
+            min-height: 50px;
+        }
+
+        .btn-group {
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+            gap: 12px;
+        }
+
+        .btn {
+            padding: 14px 20px;
+            border: none;
+            border-radius: 25px;
+            background: #ff6b81;
+            color: white;
+            font-family: 'Quicksand', sans-serif;
+            font-weight: 700;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            width: 100%;
+        }
+
+        .btn:active {
+            transform: scale(0.98);
+        }
+
+        .btn-secondary {
+            background: var(--white);
+            color: #4a4a4a;
+            border: 1px solid rgba(0,0,0,0.05);
+        }
+
+        .btn-envelope {
+            background: #af8bf0;
+            animation: pulseGlow 2s infinite;
+        }
+
+        @keyframes pulseGlow {
+            0% { box-shadow: 0 0 0 0 rgba(175, 139, 240, 0.6); }
+            70% { box-shadow: 0 0 0 10px rgba(175, 139, 240, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(175, 139, 240, 0); }
+        }
+
+        /* Envelope Screen Styles */
+        .envelope-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(243, 241, 250, 0.98);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 200;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.4s ease, visibility 0.4s;
+            padding: 20px;
+        }
+
+        .envelope-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .envelope-hint {
+            font-size: 1.1rem;
+            margin-bottom: 25px;
+            color: #6c5ce7;
+            font-weight: 700;
+            animation: floatHint 2s ease-in-out infinite alternate;
+        }
+
+        @keyframes floatHint {
+            from { transform: translateY(0); }
+            to { transform: translateY(-6px); }
+        }
+
+        /* 3D Envelope System */
+        .envelope-wrapper {
+            position: relative;
+            width: 300px;
+            height: 200px;
+            perspective: 1000px;
+            margin-bottom: 30px;
+        }
+
+        .envelope {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: #ffb7c5;
+            border-radius: 0 0 12px 12px;
+            box-shadow: 0 12px 30px rgba(0,0,0,0.1);
+            cursor: pointer;
+            transform-style: preserve-3d;
+        }
+
+        .envelope-flap {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--dark-pink);
+            clip-path: polygon(0 0, 50% 55%, 100% 0);
+            transform-origin: top;
+            transition: transform 0.4s ease 0.2s, z-index 0.2s ease 0.2s;
+            z-index: 3;
+        }
+
+        .envelope-front {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #ffa1b9;
+            clip-path: polygon(0 35%, 50% 65%, 100% 35%, 100% 100%, 0 100%);
+            border-radius: 0 0 12px 12px;
+            z-index: 2;
+            pointer-events: none;
+        }
+
+        /* Postcard System */
+        .postcard {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            width: 280px;
+            height: 180px;
+            background: #fffdf6;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.06);
+            z-index: 1;
+            padding: 16px;
+            transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) 0s;
+            overflow: hidden;
+            border: 1px dashed #ffd1dc;
+        }
+
+        .postcard-content {
+            text-align: left;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .postcard-content h3 {
+            font-family: 'Dancing Script', cursive;
+            color: #ff6b81;
+            font-size: 1.4rem;
+        }
+
+        .postcard-content p {
+            font-size: 0.85rem;
+            line-height: 1.5;
+            color: #555;
+            margin-top: 5px;
+        }
+
+        /* Open Sequence States */
+        .envelope.open .envelope-flap {
+            transform: rotateX(180deg);
+            z-index: 0;
+            transition: transform 0.4s ease 0s, z-index 0.2s ease 0.1s;
+        }
+
+        .envelope.open .postcard {
+            transform: translateY(-105px) scale(1.12);
+            z-index: 5;
+            box-shadow: 0 15px 30px rgba(0,0,0,0.12);
+            transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) 0.3s;
+        }
+
+        #close-envelope-btn {
+            max-width: 300px;
+        }
+
+        /* Particle Elements */
+        .confetti, .balloon, .floating-heart, .firework, .floating-star {
+            position: fixed;
+            pointer-events: none;
+            z-index: 150;
+        }
+
+        .confetti { width: 8px; height: 8px; }
+        .firework { width: 4px; height: 4px; border-radius: 50%; }
+        .sprinkle { position: absolute; width: 4px; height: 8px; border-radius: 2px; }
+        .balloon { position: absolute; width: 35px; height: 45px; border-radius: 50%; }
+
+        .cherry {
+            position: absolute;
+            width: 12px;
+            height: 12px;
+            background: #ff0000;
+            border-radius: 50%;
+            top: -6px;
+        }
+
+        .cherry::after {
+            content: '';
+            position: absolute;
+            width: 2px;
+            height: 10px;
+            background: green;
+            top: -8px;
+            left: 5px;
+            transform: rotate(10deg);
+        }
+
+        .floating-heart, .floating-star {
+            animation: floatUp 3.5s linear forwards;
+        }
+
+        @keyframes floatUp {
+            0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+            100% { transform: translateY(-105vh) rotate(360deg); opacity: 0; }
+        }
+
+        /* Top Banner */
+        .banner {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background: #ff6b81;
+            color: white;
+            padding: 12px 0;
+            font-weight: 700;
+            letter-spacing: 4px;
+            transform: translateY(-100%);
+            transition: transform 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.2);
+            z-index: 120;
+            text-align: center;
+            font-size: 0.9rem;
+            box-shadow: 0 4px 12px rgba(255, 107, 129, 0.2);
+        }
+
+        .banner.active {
+            transform: translateY(30px); /* Pushed below fairy lights */
+        }
+
+        /* Global Utilities */
+        .hidden { display: none !important; }
+        .fade-in { animation: fadeIn 1.2s ease-out forwards; }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(15px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
 </head>
 <body>
 
-    <header>
-        <div class="container nav-container">
-            <a href="#" class="logo">
-                <i class="fa-solid fa-layer-group"></i> Nandana.
-            </a>
-            <nav class="nav-menu">
-                <a href="#about" class="nav-link">About</a>
-                <a href="#projects" class="nav-link">Projects</a>
-                <a href="#skills" class="nav-link">Skills</a>
-                <a href="#education" class="nav-link">Education</a>
-                <a href="#contact" class="nav-link">Contact</a>
-            </nav>
+    <div id="loading-screen" class="overlay">
+        <div class="loader">
+            <div class="heart"></div>
+            <p>Preparing something magical...</p>
         </div>
-    </header>
+    </div>
 
-    <main class="container">
-        <!-- Hero Section -->
-        <section class="hero">
-            <div class="hero-content">
-                <h1>Hi,</h1>
-                <h1>I'm Nandana Anil</h1>
-                <p class="hero-subtitle">
-                    An MCA student combining development proficiency in PHP, Python, and Java with hands-on,
-                    certified expertise in Red Hat Linux and AWS cloud environments.
-                </p>
-                <div class="hero-buttons">
-                    <a href="NandanaAnil_Resume.pdf" download="NandanaAnil_Resume.pdf" class="btn btn-primary">
-                        <i class="fa-solid fa-download"></i> Download Resume
-                    </a>
-                    <a href="#contact" class="btn btn-secondary"><i class="fa-regular fa-envelope"></i> Get in Touch</a>
-                </div>
-                <div class="hero-socials">
-                    <a href="https://www.linkedin.com/in/nandanaanil22/" target="_blank"><i class="fa-brands fa-linkedin"></i></a>
-                    <a href="https://mail.google.com/mail/?view=cm&fs=1&to=nandana87500@gmail.com"><i class="fa-solid fa-envelope"></i></a>
-                </div>
+    <div class="fairy-lights"></div>
+
+    <main id="main-content">
+        <section id="landing-screen">
+            <div class="header-content">
+                <h1 class="fade-in">Someone Special Has a Surprise!</h1>
+                <p class="subtitle fade-in">Make a wish and blow out the candle</p>
             </div>
-            <div class="hero-image-container">
-                <img src="nandana_picture_cutout.png" alt="Nandana Anil Profile Picture" class="hero-profile-img">
+
+            <div class="cake-container">
+                <div class="cake">
+                    <div class="layer layer-bottom"></div>
+                    <div class="layer layer-middle"></div>
+                    <div class="layer layer-top"></div>
+                    <div class="icing"></div>
+                    <div class="drips"></div>
+                    <div class="sprinkles"></div>
+                    <div class="cherries"></div>
+                    <div class="candle">
+                        <div class="flame" id="candle-flame"></div>
+                    </div>
+                </div>
+                <div class="cake-stand"></div>
             </div>
         </section>
 
-        <!-- About Me Section -->
-        <section id="about">
-            <h2 class="section-title">About Me</h2>
-            <div class="about-grid">
-                <div class="about-text">
-                    <p>
-                        I'm Nandana Anil, an MCA student at Marthoma Institute of Information Technology, Kerala University. With a strong foundation in computer science and a passion for building meaningful solutions, I specialize in developing web applications that solve real-world problems.
-                    </p>
-                    <p>
-                        My expertise spans full-stack development, cloud architecture, and systems design. I'm particularly interested in creating platforms that enhance communication, support education, and enable collaboration among diverse stakeholders.
-                    </p>
-                    <p>
-                        I hold the RHCSA (Red Hat Certified System Administrator) certification and have completed AWS Cloud Practitioner training, giving me solid experience in infrastructure, DevOps, and cloud computing.
-                    </p>
+        <div id="message-card" class="glass-card hidden">
+            <div class="card-content">
+                <h2 id="birthday-title"></h2>
+                <p id="birthday-text"></p>
+                <div class="btn-group">
+                    <button id="celebrate-btn" class="btn">Celebrate! 🎉</button>
+                    <button id="open-letter-btn" class="btn btn-envelope hidden">Open Special Letter ✉️</button>
+                    <button id="restart-btn" class="btn btn-secondary">Restart</button>
                 </div>
-                <div class="about-cards">
-                    <div class="highlight-card">
-                        <div class="icon-box"><i class="fa-solid fa-award"></i></div>
-                        <div>
-                            <h3>RHCSA Certified</h3>
-                            <p>Red Hat Certified System Administrator</p>
-                        </div>
-                    </div>
-                    <div class="highlight-card">
-                        <div class="icon-box"><i class="fa-solid fa-code"></i></div>
-                        <div>
-                            <h3>Full-Stack Developer</h3>
-                            <p>PHP, Python, JavaScript, Cloud Architecture</p>
+            </div>
+        </div>
+
+        <div id="envelope-screen" class="envelope-overlay hidden">
+            <p class="envelope-hint">Click the envelope to open your letter ✨</p>
+            <div class="envelope-wrapper">
+                <div class="envelope" id="main-envelope">
+                    <div class="envelope-flap"></div>
+                    <div class="envelope-front"></div>
+                    <div class="postcard" id="postcard">
+                        <div class="postcard-content">
+                            <h3>Hey Bro,</h3>
+                            <p>I wanted to gift you something amazing, but i didn't fit in the envelope. Hahaha</p>
                         </div>
                     </div>
                 </div>
             </div>
-        </section>
+            <button id="close-envelope-btn" class="btn btn-secondary">Go Back</button>
+        </div>
 
-        <!-- Featured Projects Section -->
-        <section id="projects">
-            <h2 class="section-title">Featured Projects</h2>
-            <div class="projects-grid">
-                <div class="project-card">
-                    <div class="project-thumbnail">
-                        <i class="fa-solid fa-briefcase"></i>
-                    </div>
-                    <div class="project-info">
-                        <h3>ConnectAble</h3>
-                        <p class="desc">An integrated communication and support system for administrators, teachers, therapists, and parents involved in the education and therapy of children with special needs.</p>
-                        <h4 class="project-features-title">Key Features:</h4>
-                        <ul class="project-features">
-                            <li>Teacher and therapist assignment based on child requirements</li>
-                            <li>Daily progress reports and observation tracking</li>
-                            <li>Direct parent-professional communication</li>
-                            <li>Developmental milestone monitoring</li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="project-card">
-                    <div class="project-thumbnail">
-                        <i class="fa-solid fa-book-open"></i>
-                    </div>
-                    <div class="project-info">
-                        <h3>Academic Observer Platform</h3>
-                        <p class="desc">A PHP-based web application for enhanced communication and digital learning within academic environments. Centralizes educational resources and campus communications.</p>
-                        <h4 class="project-features-title">Key Features:</h4>
-                        <ul class="project-features">
-                            <li>Recorded lectures and video notes sharing</li>
-                            <li>Student union announcements and promotions</li>
-                            <li>Live broadcasting capabilities</li>
-                            <li>YouTube integration and session archive</li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="project-card">
-                    <div class="project-thumbnail">
-                        <i class="fa-solid fa-code-branch"></i>
-                    </div>
-                    <div class="project-info">
-                        <h3>AWS Serverless Contact Form</h3>
-                        <p class="desc">A cloud-native contact form application demonstrating serverless architecture on AWS. Part of AWS Cloud Practitioner training.</p>
-                        <h4 class="project-features-title">Architecture:</h4>
-                        <ul class="project-features">
-                            <li>S3 hosting for static website</li>
-                            <li>API Gateway for request routing</li>
-                            <li>Lambda for serverless processing</li>
-                            <li>Amazon SES for email notifications</li>
-                        </ul>
-                        <div class="project-tags">
-                            <span class="tag">AWS</span>
-                            <span class="tag">Serverless</span>
-                            <span class="tag">Cloud</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Technical Skills Section -->
-        <section id="skills">
-            <h2 class="section-title">Technical Skills</h2>
-            <div class="skills-grid">
-                <div class="skill-category">
-                    <h3>Programming Languages</h3>
-                    <div class="skill-item">
-                        <div class="skill-label-container"><span>Python</span></div>
-                        <div class="skill-bar-bg"><div class="skill-bar-fill" style="width: 85%;"></div></div>
-                    </div>
-                    <div class="skill-item">
-                        <div class="skill-label-container"><span>Java</span></div>
-                        <div class="skill-bar-bg"><div class="skill-bar-fill" style="width: 75%;"></div></div>
-                    </div>
-                    <div class="skill-item">
-                        <div class="skill-label-container"><span>JavaScript</span></div>
-                        <div class="skill-bar-bg"><div class="skill-bar-fill" style="width: 80%;"></div></div>
-                    </div>
-                    <div class="skill-item">
-                        <div class="skill-label-container"><span>C</span></div>
-                        <div class="skill-bar-bg"><div class="skill-bar-fill" style="width: 70%;"></div></div>
-                    </div>
-                </div>
-                <div class="skill-category">
-                    <h3>Web Technologies</h3>
-                    <div class="skill-item">
-                        <div class="skill-label-container"><span>PHP</span></div>
-                        <div class="skill-bar-bg"><div class="skill-bar-fill" style="width: 85%;"></div></div>
-                    </div>
-                    <div class="skill-item">
-                        <div class="skill-label-container"><span>HTML/CSS</span></div>
-                        <div class="skill-bar-bg"><div class="skill-bar-fill" style="width: 90%;"></div></div>
-                    </div>
-                    <div class="skill-item">
-                        <div class="skill-label-container"><span>Bootstrap</span></div>
-                        <div class="skill-bar-bg"><div class="skill-bar-fill" style="width: 80%;"></div></div>
-                    </div>
-                </div>
-                <div class="skill-category">
-                    <h3>Cloud & Infrastructure</h3>
-                    <div class="skill-item">
-                        <div class="skill-label-container"><span>AWS S3</span></div>
-                        <div class="skill-bar-bg"><div class="skill-bar-fill" style="width: 85%;"></div></div>
-                    </div>
-                    <div class="skill-item">
-                        <div class="skill-label-container"><span>Lambda</span></div>
-                        <div class="skill-bar-bg"><div class="skill-bar-fill" style="width: 80%;"></div></div>
-                    </div>
-                    <div class="skill-item">
-                        <div class="skill-label-container"><span>API Gateway</span></div>
-                        <div class="skill-bar-bg"><div class="skill-bar-fill" style="width: 75%;"></div></div>
-                    </div>
-                    <div class="skill-item">
-                        <div class="skill-label-container"><span>Linux</span></div>
-                        <div class="skill-bar-bg"><div class="skill-bar-fill" style="width: 85%;"></div></div>
-                    </div>
-                </div>
-                <div class="skill-category">
-                    <h3>Databases & Tools</h3>
-                    <div class="skill-item">
-                        <div class="skill-label-container"><span>MySQL</span></div>
-                        <div class="skill-bar-bg"><div class="skill-bar-fill" style="width: 85%;"></div></div>
-                    </div>
-                    <div class="skill-item">
-                        <div class="skill-label-container"><span>Git</span></div>
-                        <div class="skill-bar-bg"><div class="skill-bar-fill" style="width: 80%;"></div></div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Education & Certifications Section -->
-        <section id="education">
-            <h2 class="section-title">Education & Certifications</h2>
-            <div class="timeline">
-                <div class="timeline-item">
-                    <div class="timeline-dot"></div>
-                    <div class="timeline-card">
-                        <h3>Master of Computer Applications (MCA)</h3>
-                        <div class="timeline-meta">Marthoma Institute of Information Technology, Kerala University</div>
-                        <p class="timeline-desc">Currently pursuing advanced studies in computer science with focus on systems design and software architecture.</p>
-                    </div>
-                </div>
-                <div class="timeline-item">
-                    <div class="timeline-dot"></div>
-                    <div class="timeline-card">
-                        <h3>Bachelor of Computer Applications (BCA)</h3>
-                        <div class="timeline-meta">Yeldo Mar Baselios College, MG University</div>
-                        <p class="timeline-desc">Completed comprehensive computer science education with strong foundation in programming, databases, and web development.</p>
-                    </div>
-                </div>
-                <div class="timeline-item">
-                    <div class="timeline-dot"></div>
-                    <div class="timeline-card">
-                        <h3>Higher Secondary Education (Plus Two)</h3>
-                        <div class="timeline-meta">M.R.M.K.M.M.H.S.S, Edava</div>
-                        <p class="timeline-desc">Completed higher secondary education with a focus on foundational academic concepts preparing for engineering and science fields.</p>
-                    </div>
-                </div>
-                <div class="timeline-item">
-                    <div class="timeline-dot"></div>
-                    <div class="timeline-card">
-                        <h3>Secondary School Leaving Certificate (SSLC)</h3>
-                        <div class="timeline-meta">L.F.E.M.H.S.S, Edava</div>
-                        <p class="timeline-desc">Completed secondary education establishing core competencies in mathematics, science, and general studies.</p>
-                    </div>
-                </div>
-                <div class="timeline-item">
-                    <div class="timeline-dot"></div>
-                    <div class="timeline-card">
-                        <h3>RHCSA - Red Hat Certified System Administrator</h3>
-                        <div class="timeline-meta">Red Hat Certification</div>
-                        <p class="timeline-desc">Professional certification validating expertise in Linux system administration, user management, and infrastructure configuration.</p>
-                    </div>
-                </div>
-                <div class="timeline-item">
-                    <div class="timeline-dot"></div>
-                    <div class="timeline-card">
-                        <h3>AWS Cloud Practitioner</h3>
-                        <div class="timeline-meta">Amazon Web Services - 1 Month Course</div>
-                        <p class="timeline-desc">Completed comprehensive AWS training covering cloud fundamentals, services, and best practices. Built serverless contact form application demonstrating S3, Lambda, API Gateway, and SES integration.</p>
-                    </div>
-                </div>
-            </div>
-        </section>
+        <div id="birthday-banner" class="banner">
+            <span>🎉 HAPPY BIRTHDAY! 🎉</span>
+        </div>
     </main>
 
-    <!-- Footer / Contact Section -->
-    <footer id="contact">
-        <div class="container footer-content">
-            <p>I'm always interested in hearing about new projects and opportunities. Feel free to reach out if you'd like to collaborate or discuss ideas.</p>
-            <div class="footer-buttons">
-                <a href="https://mail.google.com/mail/?view=cm&fs=1&to=nandana87500@gmail.com" target="_blank" class="btn btn-primary"><i class="fa-regular fa-envelope"></i> Send Email</a>
-                <a href="https://www.linkedin.com/in/nandanaanil22/" target="_blank" class="btn btn-outline-white"><i class="fa-brands fa-linkedin"></i> LinkedIn</a>
-            </div>
-            <div class="copyright">
-                &copy; 2026 Nandana Anil. All rights reserved.
-            </div>
-        </div>
-    </footer>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const loadingScreen = document.getElementById('loading-screen');
+            const landingScreen = document.getElementById('landing-screen');
+            const flame = document.getElementById('candle-flame');
+            const messageCard = document.getElementById('message-card');
+            const celebrateBtn = document.getElementById('celebrate-btn');
+            const openLetterBtn = document.getElementById('open-letter-btn');
+            const restartBtn = document.getElementById('restart-btn');
+            const banner = document.getElementById('birthday-banner');
+            const birthdayTitle = document.getElementById('birthday-title');
+            const birthdayText = document.getElementById('birthday-text');
+            
+            // Envelope elements
+            const envelopeScreen = document.getElementById('envelope-screen');
+            const mainEnvelope = document.getElementById('main-envelope');
+            const closeEnvelopeBtn = document.getElementById('close-envelope-btn');
 
-    <!-- External JavaScript Link -->
-    <script src="script.js"></script>
+            const messageTitle = "Happy Birthday Kunjaa!";
+            const messageBody = "Here's a birthday hug for you!";
+
+            // 1. Hide Loading Screen
+            setTimeout(() => {
+                if (loadingScreen) loadingScreen.classList.add('hidden');
+                addCakeDecorations();
+            }, 2000);
+
+            function addCakeDecorations() {
+                const topLayer = document.querySelector('.layer-top');
+                const middleLayer = document.querySelector('.layer-middle');
+
+                // Add Sprinkles
+                for (let i = 0; i < 30; i++) {
+                    const sprinkle = document.createElement('div');
+                    sprinkle.className = 'sprinkle';
+                    sprinkle.style.left = Math.random() * 100 + '%';
+                    sprinkle.style.top = Math.random() * 100 + '%';
+                    sprinkle.style.backgroundColor = `hsl(${Math.random() * 360}, 70%, 70%)`;
+                    sprinkle.style.transform = `rotate(${Math.random() * 360}deg)`;
+                    if (middleLayer) middleLayer.appendChild(sprinkle);
+                }
+
+                // Add Cherries
+                const cherryPositions = [20, 50, 80];
+                cherryPositions.forEach(pos => {
+                    const cherry = document.createElement('div');
+                    cherry.className = 'cherry';
+                    cherry.style.left = pos + '%';
+                    if (topLayer) topLayer.appendChild(cherry);
+                });
+            }
+
+            // 2. Candle Interaction
+            if (flame) {
+                flame.addEventListener('click', () => {
+                    flame.style.display = 'none';
+                    startCelebration();
+                });
+            }
+
+            function startCelebration() {
+                document.body.style.background = 'radial-gradient(circle, #fffdd0, #ffd1dc, #e6e6fa)';
+                createConfetti();
+                createBalloons();
+                
+                // Clear mobile viewport space beautifully before opening card
+                if (landingScreen) landingScreen.classList.add('fade-out');
+                
+                setTimeout(() => {
+                    if (messageCard) {
+                        messageCard.classList.remove('hidden');
+                        messageCard.classList.add('active');
+                    }
+                    typeWriter(birthdayTitle, messageTitle, 50, () => {
+                        typeWriter(birthdayText, messageBody, 30, () => {
+                            if (openLetterBtn) openLetterBtn.classList.remove('hidden');
+                        });
+                    });
+                }, 600);
+            }
+
+            // 3. Typewriter Effect
+            function typeWriter(element, text, speed, callback) {
+                if (!element) return;
+                let i = 0;
+                element.innerHTML = '';
+                function type() {
+                    if (i < text.length) {
+                        element.innerHTML += text.charAt(i);
+                        i++;
+                        setTimeout(type, speed);
+                    } else if (callback) {
+                        callback();
+                    }
+                }
+                type();
+            }
+
+            // 4. Envelope Interactions
+            if (openLetterBtn) {
+                openLetterBtn.addEventListener('click', () => {
+                    if (messageCard) {
+                        messageCard.classList.remove('active');
+                        messageCard.classList.add('hidden');
+                    }
+                    if (envelopeScreen) {
+                        envelopeScreen.classList.remove('hidden');
+                        setTimeout(() => {
+                            envelopeScreen.classList.add('active');
+                        }, 50);
+                    }
+                });
+            }
+
+            if (mainEnvelope) {
+                mainEnvelope.addEventListener('click', () => {
+                    mainEnvelope.classList.toggle('open');
+                });
+            }
+
+            if (closeEnvelopeBtn) {
+                closeEnvelopeBtn.addEventListener('click', () => {
+                    if (mainEnvelope) mainEnvelope.classList.remove('open');
+                    if (envelopeScreen) envelopeScreen.classList.remove('active');
+                    setTimeout(() => {
+                        if (envelopeScreen) envelopeScreen.classList.add('hidden');
+                        if (messageCard) {
+                            messageCard.classList.remove('hidden');
+                            messageCard.classList.add('active');
+                        }
+                    }, 500);
+                });
+            }
+
+            // 5. Confetti Generation
+            function createConfetti() {
+                for (let i = 0; i < 75; i++) {
+                    const confetti = document.createElement('div');
+                    confetti.className = 'confetti';
+                    confetti.style.left = Math.random() * 100 + 'vw';
+                    confetti.style.backgroundColor = `hsl(${Math.random() * 360}, 70%, 70%)`;
+                    confetti.style.top = '-10px';
+                    document.body.appendChild(confetti);
+
+                    const fallKeyframes = [
+                        { transform: `translateY(0) rotate(0deg)`, opacity: 1 },
+                        { transform: `translateY(102vh) rotate(${Math.random() * 360}deg)`, opacity: 0 }
+                    ];
+                    confetti.animate(fallKeyframes, {
+                        duration: Math.random() * 2500 + 1500,
+                        easing: 'linear',
+                        fill: 'forwards'
+                    });
+
+                    setTimeout(() => confetti.remove(), 4000);
+                }
+            }
+
+            // 6. Balloon Generation
+            function createBalloons() {
+                const colors = ['#ff85a2', '#b3e5fc', '#ffd1dc', '#e6e6fa', '#fffdd0'];
+                for (let i = 0; i < 12; i++) {
+                    setTimeout(() => {
+                        const balloon = document.createElement('div');
+                        balloon.className = 'balloon';
+                        balloon.style.left = Math.random() * 85 + 'vw';
+                        balloon.style.bottom = '-60px';
+                        balloon.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                        document.body.appendChild(balloon);
+
+                        balloon.animate([
+                            { bottom: '-60px', transform: 'translateX(0)' },
+                            { bottom: '105vh', transform: `translateX(${(Math.random() - 0.5) * 60}px)` }
+                        ], {
+                            duration: Math.random() * 3500 + 3500,
+                            easing: 'ease-in'
+                        });
+
+                        setTimeout(() => balloon.remove(), 7000);
+                    }, i * 250);
+                }
+            }
+
+            // 7. Celebrate Button Interaction
+            if (celebrateBtn) {
+                celebrateBtn.addEventListener('click', () => {
+                    createConfetti();
+                    createHearts();
+                    createFireworks();
+                    if (banner) banner.classList.add('active');
+                });
+            }
+
+            function createHearts() {
+                for (let i = 0; i < 15; i++) {
+                    const heart = document.createElement('div');
+                    heart.innerHTML = '💖';
+                    heart.className = 'floating-heart';
+                    heart.style.left = Math.random() * 100 + 'vw';
+                    heart.style.bottom = '-20px';
+                    heart.style.fontSize = (Math.random() * 15 + 12) + 'px';
+                    document.body.appendChild(heart);
+                    setTimeout(() => heart.remove(), 3500);
+                }
+            }
+
+            function createFireworks() {
+                for (let i = 0; i < 4; i++) {
+                    setTimeout(() => {
+                        const x = Math.random() * 80 + 10;
+                        const y = Math.random() * 40 + 15;
+                        const color = `hsl(${Math.random() * 360}, 100%, 50%)`;
+                        
+                        for (let j = 0; j < 24; j++) {
+                            const particle = document.createElement('div');
+                            particle.className = 'firework';
+                            particle.style.left = x + 'vw';
+                            particle.style.top = y + 'vh';
+                            particle.style.backgroundColor = color;
+                            document.body.appendChild(particle);
+
+                            const angle = (j / 24) * Math.PI * 2;
+                            const velocity = Math.random() * 80 + 40;
+                            const vx = Math.cos(angle) * velocity;
+                            const vy = Math.sin(angle) * velocity;
+
+                            particle.animate([
+                                { transform: 'translate(0, 0) scale(1)', opacity: 1 },
+                                { transform: `translate(${vx}px, ${vy}px) scale(0)`, opacity: 0 }
+                            ], {
+                                duration: 900,
+                                easing: 'ease-out'
+                            });
+
+                            setTimeout(() => particle.remove(), 900);
+                        }
+                    }, i * 400);
+                }
+            }
+
+            // 8. Sparkle Trail Support for Touch/Mobile
+            const spawnSparkle = (x, y) => {
+                const sparkle = document.createElement('div');
+                sparkle.className = 'floating-star';
+                sparkle.innerHTML = '✨';
+                sparkle.style.left = x + 'px';
+                sparkle.style.top = y + 'px';
+                sparkle.style.fontSize = '12px';
+                document.body.appendChild(sparkle);
+                
+                sparkle.animate([
+                    { transform: 'scale(1)', opacity: 1 },
+                    { transform: 'scale(0)', opacity: 0 }
+                ], {
+                    duration: 800,
+                    easing: 'ease-out'
+                });
+                
+                setTimeout(() => sparkle.remove(), 800);
+            };
+
+            document.addEventListener('mousemove', (e) => spawnSparkle(e.pageX, e.pageY));
+            document.addEventListener('touchmove', (e) => {
+                if(e.touches.length > 0) {
+                    spawnSparkle(e.touches[0].pageX, e.touches[0].pageY);
+                }
+            }, { passive: true });
+
+            // 9. Restart Logic
+            if (restartBtn) {
+                restartBtn.addEventListener('click', () => {
+                    if (messageCard) {
+                        messageCard.classList.remove('active');
+                        messageCard.classList.add('hidden');
+                    }
+                    if (banner) banner.classList.remove('active');
+                    if (openLetterBtn) openLetterBtn.classList.add('hidden');
+                    if (flame) flame.style.display = 'block';
+                    if (birthdayTitle) birthdayTitle.innerHTML = '';
+                    if (birthdayText) birthdayText.innerHTML = '';
+                    document.body.style.background = '';
+                    if (landingScreen) landingScreen.classList.remove('fade-out');
+                });
+            }
+        });
+    </script>
 </body>
 </html>
